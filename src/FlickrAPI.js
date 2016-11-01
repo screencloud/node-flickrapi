@@ -96,7 +96,7 @@ module.exports = (function Flickr() {
    */
   return {
     getAuthRedirectURL: getAuthRedirectURL,
-    processAuthCallback: processAuthCallback
+    processAuthCallback: processAuthCallback,
     getAPI: getAPI
   };
 
