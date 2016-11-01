@@ -3,7 +3,6 @@ module.exports = (function() {
 
   var request = require("request"),
       Utils = require("../utils"),
-      RequestAuthorization = require("./auth");
 
   /**
    * First part of oauth: request a token
@@ -46,7 +45,12 @@ module.exports = (function() {
       Object.keys(response).forEach(function(key) {
         options[key] = response[key];
       });
-      new RequestAuthorization(options, requestCompleted);
+      options.permissions = options.permissions || "read";
+      var oauth_token = options.oauth_token,
+        oauth_token_secret = options.oauth_token_secret,
+        authURL = "https://www.flickr.com/services/oauth/authorize",
+        browserURL = authURL + "?oauth_token=" + oauth_token + "&perms=" + options.permissions;
+      return requestCompleted(browserURL); 
     });
   };
 
