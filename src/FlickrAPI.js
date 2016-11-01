@@ -25,11 +25,12 @@ var getAuthRedirectURL = function(options, callback) {
         oauth_version:          "1.0"
       };
 
+  var url = "https://www.flickr.com/services/oauth/request_token";
   var queryString = Utils.formQueryString(queryArguments);
-  var data = Utils.formBaseString("GET", this.url, queryString);
+  var data = Utils.formBaseString("GET", url, queryString);
   var signature = Utils.sign(data, options.secret);
 
-  var flickrURL = "https://www.flickr.com/services/oauth/request_token" + "?" + queryString + "&oauth_signature=" + signature;
+  var flickrURL = url + "?" + queryString + "&oauth_signature=" + signature;
   request.get(flickrURL, function(error, response, body) {
 
     if(error) return callback(error);
@@ -67,14 +68,15 @@ var processAuthCallback = function(options, tokens, callback){
     oauth_signature_method: "HMAC-SHA1",
     oauth_timestamp:        options.oauth_timestamp,
     // new values:
-    oauth_token: options.oauth_token,
+    oauth_token: tokens.oauth_token,
     oauth_verifier: tokens.oauth_verifier
   };
 
+  var url = "https://www.flickr.com/services/oauth/access_token";
   var queryString = Utils.formQueryString(queryArguments);
-  var data = Utils.formBaseString("GET", this.url, queryString);
+  var data = Utils.formBaseString("GET", url, queryString);
   var signature = Utils.sign(data, options.secret, options.oauth_token_secret);
-  var flickrURL = "https://www.flickr.com/services/oauth/access_token" + "?" + queryString + "&oauth_signature=" + signature;
+  var flickrURL = url + "?" + queryString + "&oauth_signature=" + signature;
   request.get(flickrURL, function(error, response, body) {
     if(error) return callback(error);
     return callback(false, Utils.parseRestResponse(body));
