@@ -12,7 +12,7 @@
     "request": "2.26.x"
   },
   "devDependencies": {
-    "express": "~3.4.7",
+    "express": "~4.17.1",
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.6.3",
     "grunt-contrib-nodeunit": "~0.2.0",
